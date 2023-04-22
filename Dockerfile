@@ -1,11 +1,11 @@
-FROM python AS builder
+FROM python:3.11.2-alpine3.16 AS builder
 
 COPY requirements requirements
 RUN python -m venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 RUN pip install -r requirements/backend.in
 
-FROM python
+FROM python:3.11.2-alpine3.16
 COPY --from=builder /.venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 COPY build build
