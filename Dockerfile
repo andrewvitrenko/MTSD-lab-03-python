@@ -1,13 +1,13 @@
-FROM python:3.11.2-alpine3.16 AS builder
+FROM python:3.11.2-buster AS builder
 
-RUN apk update
-RUN apk --no-cache add musl-dev g++
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends build-essential gcc
 COPY requirements requirements
 RUN python -m venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 RUN pip install -r requirements/backend.in
 
-FROM python:3.11.2-alpine3.16
+FROM python:3.11.2-buster
 COPY --from=builder /.venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 COPY build build
